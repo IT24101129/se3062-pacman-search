@@ -108,3 +108,27 @@ Submit **two** items to the course portal:
 
 - Replace `Group_XX` with your actual group number once assigned.
 - Fill in member names/IDs in the Team table above once finalized.
+
+## Testing & Quality Checklist
+
+Before merging and submitting, the team should verify the following:
+
+* Run the relevant autograder after completing each question:
+
+  * `python autograder.py -q q1`
+  * `python autograder.py -q q2`
+  * `python autograder.py -q q3`
+  * `python autograder.py -q q4`
+  * `python autograder.py -q q5`
+  * `python autograder.py -q q6`
+  * `python autograder.py -q q7`
+* Run the complete test suite before submission:
+
+  * `python autograder.py`
+* Confirm that all required function and class names remain unchanged.
+* Verify that `search.py` and `searchAgents.py` contain only the required assignment changes.
+* Confirm that Q6 and Q7 heuristics remain **admissible and consistent** and do not sacrifice correctness for better node-expansion performance.
+* Take clear screenshots of the final autograder results for the report.
+* Review the merged code as a team and make sure every member can explain the complete solution for the individual viva.
+* Check Git history to ensure every member has meaningful commits and contribution evidence before the final submission.
+  
