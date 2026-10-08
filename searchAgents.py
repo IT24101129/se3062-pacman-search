@@ -393,7 +393,23 @@ def cornersHeuristic(state: Any, problem: CornersProblem):
         for a, b in zip(order, order[1:]):
             cost += dist[a][b]
         best = min(best, cost)
-    return 0 # Default to trivial solution
+    return best# Default to trivial solution
+def mazeDistancesFrom(source, walls):
+    """
+    Helper for cornersHeuristic: BFS from source over the non-wall cells.
+    Returns a dict {(x, y): shortest path length from source}.
+    """
+    distances = {source: 0}
+    queue = util.Queue()
+    queue.push(source)
+    while not queue.isEmpty():
+        x, y = queue.pop()
+        for dx, dy in ((0, 1), (0, -1), (1, 0), (-1, 0)):
+            nxt = (x + dx, y + dy)
+            if not walls[nxt[0]][nxt[1]] and nxt not in distances:
+                distances[nxt] = distances[(x, y)] + 1
+                queue.push(nxt)
+    return distances
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
