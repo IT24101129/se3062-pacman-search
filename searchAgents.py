@@ -483,8 +483,10 @@ def foodHeuristic(state: Tuple[Tuple, List[List]], problem: FoodSearchProblem):
     if position not in problem.heuristicInfo:
         problem.heuristicInfo[position] = _mazeDistancesFrom(position, problem.walls)
     distances = problem.heuristicInfo[position]
-    # Any solution must physically walk to every remaining dot, so its cost is
-    # at least the maze distance to the farthest one.
+    # Every valid solution must reach every remaining food dot.
+    # Therefore, it must travel at least as far as the farthest dot.
+    # Using the true maze distance gives an admissible lower bound because
+    # walls can only make the actual route equal to or longer than this distance.
     return max((distances[food] for food in foods if food in distances), default=0)
 
 class ClosestDotSearchAgent(SearchAgent):
