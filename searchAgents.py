@@ -39,6 +39,7 @@ from game import Directions
 from game import Agent
 from game import Actions
 import util
+import itertools
 import time
 import search
 import pacman
@@ -385,15 +386,17 @@ def cornersHeuristic(state: Any, problem: CornersProblem):
         info['cornerDist'] = {c: mazeDistancesFrom(c, walls) for c in corners}
     dist = info['cornerDist']
 
-    # Cheapest order to visit the remaining corners, where every leg costs
-    # its true shortest-path length (at most 4! = 24 orders).
+    # Cheapest order to visit the remaining corners, where every leg costs its
+    # true shortest-path length (at most 4! = 24 orders).
     best = float('inf')
     for order in itertools.permutations(remaining):
         cost = dist[order[0]][position]
         for a, b in zip(order, order[1:]):
             cost += dist[a][b]
         best = min(best, cost)
-    return best# Default to trivial solution
+    return best
+
+
 def mazeDistancesFrom(source, walls):
     """
     Helper for cornersHeuristic: BFS from source over the non-wall cells.
