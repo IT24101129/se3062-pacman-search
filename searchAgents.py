@@ -529,8 +529,7 @@ def foodHeuristic(state: Tuple[Tuple, List[List]], problem: FoodSearchProblem):
     foods = foodGrid.asList()
     if not foods:
         return 0
-    # Maze distances depend only on the walls, which never change during the
-    # search, so each position's BFS result is computed once and cached.
+    # Maze distances depend only on the walls, which never change during the search, so each position's BFS result is computed once and cached.
     if position not in problem.heuristicInfo:
         problem.heuristicInfo[position] = _mazeDistancesFrom(position, problem.walls)
     distances = problem.heuristicInfo[position]
