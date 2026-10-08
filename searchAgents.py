@@ -39,7 +39,6 @@ from game import Directions
 from game import Agent
 from game import Actions
 import util
-import itertools
 import time
 import search
 import pacman
@@ -370,49 +369,7 @@ def cornersHeuristic(state: Any, problem: CornersProblem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
 
     "*** YOUR CODE HERE ***"
-    position, visited = state
-
-    # Corners Pacman still has to touch
-    remaining = [c for c, v in zip(corners, visited) if not v]
-    if not remaining:
-        return 0  # goal state
-
-    # One-time precomputation, cached on the problem object:
-    # real maze distance from each corner to every reachable cell.
-    if not hasattr(problem, 'heuristicInfo'):
-        problem.heuristicInfo = {}
-    info = problem.heuristicInfo
-    if 'cornerDist' not in info:
-        info['cornerDist'] = {c: mazeDistancesFrom(c, walls) for c in corners}
-    dist = info['cornerDist']
-
-    # Cheapest order to visit the remaining corners, where every leg costs its
-    # true shortest-path length (at most 4! = 24 orders).
-    best = float('inf')
-    for order in itertools.permutations(remaining):
-        cost = dist[order[0]][position]
-        for a, b in zip(order, order[1:]):
-            cost += dist[a][b]
-        best = min(best, cost)
-    return best
-
-
-def mazeDistancesFrom(source, walls):
-    """
-    Helper for cornersHeuristic: BFS from source over the non-wall cells.
-    Returns a dict {(x, y): shortest path length from source}.
-    """
-    distances = {source: 0}
-    queue = util.Queue()
-    queue.push(source)
-    while not queue.isEmpty():
-        x, y = queue.pop()
-        for dx, dy in ((0, 1), (0, -1), (1, 0), (-1, 0)):
-            nxt = (x + dx, y + dy)
-            if not walls[nxt[0]][nxt[1]] and nxt not in distances:
-                distances[nxt] = distances[(x, y)] + 1
-                queue.push(nxt)
-    return distances
+    return 0 # Default to trivial solution
 
 class AStarCornersAgent(SearchAgent):
     "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
