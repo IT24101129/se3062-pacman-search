@@ -373,6 +373,8 @@ def cornersHeuristic(state: Any, problem: CornersProblem):
 
     # Corners Pacman still has to touch
     remaining = [c for c, v in zip(corners, visited) if not v]
+    if not remaining:
+        return 0  # goal state
     return 0 # Default to trivial solution
 
 class AStarCornersAgent(SearchAgent):
