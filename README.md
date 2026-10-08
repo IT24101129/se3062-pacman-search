@@ -132,3 +132,10 @@ Before merging and submitting, the team should verify the following:
 * Review the merged code as a team and make sure every member can explain the complete solution for the individual viva.
 * Check Git history to ensure every member has meaningful commits and contribution evidence before the final submission.
   
+### Q7 Food Heuristic Validation
+
+After integrating the latest `main` branch, the Q7 food heuristic was re-tested
+with the official autograder. All Q7 heuristic correctness tests passed.
+
+The trickySearch performance test expanded 4,137 nodes, which is below the
+9,000-node threshold for full Q7 performance credit.
