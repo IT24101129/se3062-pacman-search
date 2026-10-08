@@ -384,6 +384,15 @@ def cornersHeuristic(state: Any, problem: CornersProblem):
     if 'cornerDist' not in info:
         info['cornerDist'] = {c: mazeDistancesFrom(c, walls) for c in corners}
     dist = info['cornerDist']
+
+    # Cheapest order to visit the remaining corners, where every leg costs
+    # its true shortest-path length (at most 4! = 24 orders).
+    best = float('inf')
+    for order in itertools.permutations(remaining):
+        cost = dist[order[0]][position]
+        for a, b in zip(order, order[1:]):
+            cost += dist[a][b]
+        best = min(best, cost)
     return 0 # Default to trivial solution
 
 class AStarCornersAgent(SearchAgent):
