@@ -425,6 +425,27 @@ class AStarFoodSearchAgent(SearchAgent):
         self.searchFunction = lambda prob: search.aStarSearch(prob, foodHeuristic)
         self.searchType = FoodSearchProblem
 
+def _mazeDistancesFrom(start: Tuple[int, int], walls) -> dict:
+    """
+    Breadth-first search from `start` over the non-wall cells of the maze.
+
+    Returns a dictionary mapping every reachable position to its true shortest
+    path length (maze distance) from `start`.  BFS explores positions in
+    increasing distance order, so the first time a position is reached, the
+    recorded distance is already optimal.
+    """
+    distances = {start: 0}
+    queue = util.Queue()
+    queue.push(start)
+    while not queue.isEmpty():
+        x, y = queue.pop()
+        for neighbor in ((x, y + 1), (x, y - 1), (x + 1, y), (x - 1, y)):
+            if neighbor not in distances and not walls[neighbor[0]][neighbor[1]]:
+                distances[neighbor] = distances[(x, y)] + 1
+                queue.push(neighbor)
+    return distances
+
+
 def foodHeuristic(state: Tuple[Tuple, List[List]], problem: FoodSearchProblem):
     """
     Your heuristic for the FoodSearchProblem goes here.
@@ -457,9 +478,14 @@ def foodHeuristic(state: Tuple[Tuple, List[List]], problem: FoodSearchProblem):
     foods = foodGrid.asList()
     if not foods:
         return 0
-    # Admissible: the optimal path must reach every dot, including the farthest
-    # one, and Manhattan distance never overestimates the true walking distance.
-    return max(util.manhattanDistance(position, food) for food in foods)
+    # Maze distances depend only on the walls, which never change during the
+    # search, so each position's BFS result is computed once and cached.
+    if position not in problem.heuristicInfo:
+        problem.heuristicInfo[position] = _mazeDistancesFrom(position, problem.walls)
+    distances = problem.heuristicInfo[position]
+    # Any solution must physically walk to every remaining dot, so its cost is
+    # at least the maze distance to the farthest one.
+    return max((distances[food] for food in foods if food in distances), default=0)
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"
