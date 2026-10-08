@@ -375,6 +375,15 @@ def cornersHeuristic(state: Any, problem: CornersProblem):
     remaining = [c for c, v in zip(corners, visited) if not v]
     if not remaining:
         return 0  # goal state
+
+    # One-time precomputation, cached on the problem object:
+    # real maze distance from each corner to every reachable cell.
+    if not hasattr(problem, 'heuristicInfo'):
+        problem.heuristicInfo = {}
+    info = problem.heuristicInfo
+    if 'cornerDist' not in info:
+        info['cornerDist'] = {c: mazeDistancesFrom(c, walls) for c in corners}
+    dist = info['cornerDist']
     return 0 # Default to trivial solution
 
 class AStarCornersAgent(SearchAgent):
