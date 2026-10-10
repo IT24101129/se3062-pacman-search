@@ -297,6 +297,8 @@ class CornersProblem(search.SearchProblem):
         space)
         """
         "*** YOUR CODE HERE ***"
+        # State = (position, (c1, c2, c3, c4)); each boolean says whether that corner has been visited
+        # A corner counts as visited if Pacman starts on it
         visited = tuple(self.startingPosition == corner for corner in self.corners)
         return (self.startingPosition, visited)
 
@@ -305,6 +307,7 @@ class CornersProblem(search.SearchProblem):
         Returns whether this search state is a goal state of the problem.
         """
         "*** YOUR CODE HERE ***"
+        # Goal: all four corner flags are True
         return all(state[1])
 
     def getSuccessors(self, state: Any):
@@ -328,12 +331,16 @@ class CornersProblem(search.SearchProblem):
             #   hitsWall = self.walls[nextx][nexty]
 
             "*** YOUR CODE HERE ***"
+            # Unpack the current position and the corner flags
             (x, y), visited = state
             dx, dy = Actions.directionToVector(action)
             nextx, nexty = int(x + dx), int(y + dy)
+            # Only moves that do not hit a wall become successors
             if not self.walls[nextx][nexty]:
                 nextPos = (nextx, nexty)
+                # A flag stays True if already visited, or turns True when we step onto that corner
                 newVisited = tuple(v or nextPos == c for v, c in zip(visited, self.corners))
+                # Every step costs 1
                 successors.append(((nextPos, newVisited), action, 1))
 
         self._expanded += 1 # DO NOT CHANGE
