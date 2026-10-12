@@ -58,10 +58,10 @@ Run everything at once: `python autograder.py`
 
 | Member | Student ID | Questions | Branch |
 |---|---|---|---|
-| A | IT24100624 | Q1 — DFS, Q2 — BFS | `a-dfs-bfs` |
-| B | IT24101129 | Q3 — UCS, Q4 — A\* | `b-ucs-astar` |
-| C | IT24103258 | Q5 — CornersProblem | `c-corners-problem` |
-| D | IT24100422 | Q6 — Corners Heuristic, Q7 — Food Heuristic | `d-heuristics` |
+| A | IT24100624 | Q1 — DFS, Q2 — BFS, Q3 — UCS, Q4 — A\* | `a-dfs-bfs-ucs-astar`|
+| B | IT24101129 | Q5 — CornersProblem | `b-corners-problem`|
+| C | IT24103258 | Q6 — Corners Heuristic | 'c-corners-heuristic`|
+| D | IT24100422 | Q7 — Food Heuristic | `d-food-heuristics`|
 
 **Rule:** Q1/Q2 and Q3/Q4 live in `search.py`; Q5–Q7 live in `searchAgents.py`. Avoid two people editing the same file at once — coordinate before starting.
 
